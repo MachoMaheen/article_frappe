@@ -1,6 +1,6 @@
-## Htmx Portal
+## Article using Frappe & HTMX
 
-HTMX Powered Portal Pages
+HTMX Powered Articles Pages
 
 #### License
 
