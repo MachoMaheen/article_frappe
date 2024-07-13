@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Book Shelf</title>
+    <script src="/assets/htmx_portal/js/htmx.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.lime.min.css" />
+</head>
+
+<body class="container">
+    <nav>
+        <ul>
+            <li><strong>My Book Shelf</strong></li>
+        </ul>
+        <ul>
+            <li><a href="#">About</a></li>
+        </ul>
+    </nav>
+
+    <main class="grid">
+        <form hx-post="/api/v2/method/Book/new_book" hx-target="#book-list">
+            <fieldset>
+                <label>
+                    Book Title
+                    <input name="name" placeholder="Harry Potter..." required />
+                </label>
+                <label>
+                    Author
+                    <input name="author" placeholder="J.K. Rowling" required />
+                </label>
+            </fieldset>
+
+            <input type="submit" value="Create" />
+        </form>
+
+        <div>
+            <article id="book-list">
+                {% include "templates/includes/book_list.html" %}
+            </article>
+
+            <button 
+            class="secondary"
+            hx-get="/api/v2/method/Book/books_list" 
+            hx-target="#book-list">Refresh
+            </button>
+        </div>
+    </main>
+</body>
+
+<script>
+    document.body.addEventListener('htmx:configRequest', function (evt) {
+        evt.detail.headers['X-Frappe-CSRF-Token'] = "{{ frappe.session.csrf_token }}";
+    });
+</script>
+
+</html>
